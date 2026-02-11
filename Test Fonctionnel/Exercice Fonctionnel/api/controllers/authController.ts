@@ -25,7 +25,7 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     const realm = await getRealm();
-    
+
     const existingUser = realm.objects('User').filtered('email == $0', email)[0];
 
     if (existingUser) {
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     let user: any;
-    
+
     realm.write(() => {
       user = realm.create('User', {
         _id: uuidv4(),
@@ -114,14 +114,34 @@ export const getMe = async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
       }
     });
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ success: false, error: 'Server Error' });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const realm = await getRealm();
+    const user = realm.objectForPrimaryKey('User', req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    realm.write(() => {
+      realm.delete(user);
+    });
+
+    res.json({ success: true });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ success: false, error: 'Server Error' });

@@ -9,14 +9,14 @@ export const getTags = async (req: Request, res: Response) => {
   try {
     const realm = await getRealm();
     const tags = realm.objects('Tag').filtered('userId == $0', req.user?.id);
-    
+
     const tagsJson = tags.map((tag: any) => ({
       _id: tag._id,
       name: tag.name,
       color: tag.color,
       userId: tag.userId,
     }));
-    
+
     res.json({ success: true, tags: tagsJson });
   } catch (err: any) {
     console.error(err.message);
@@ -31,8 +31,16 @@ export const createTag = async (req: Request, res: Response) => {
   const { name, color } = req.body;
 
   try {
+    if (!name) {
+      return res.status(400).json({ success: false, error: 'Missing name' });
+    }
+
+    if (!color) {
+      return res.status(400).json({ success: false, error: 'Missing color' });
+    }
+
     const realm = await getRealm();
-    
+
     let tag: any;
     realm.write(() => {
       tag = realm.create('Tag', {
@@ -44,8 +52,8 @@ export const createTag = async (req: Request, res: Response) => {
       });
     });
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       tag: {
         _id: tag._id,
         name: tag.name,
@@ -78,7 +86,7 @@ export const deleteTag = async (req: Request, res: Response) => {
     realm.write(() => {
       realm.delete(tag);
     });
-    
+
     res.json({ success: true, message: 'Tag removed' });
   } catch (err: any) {
     console.error(err.message);

@@ -126,6 +126,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  data-testid="task-title"
                 />
               </div>
 
@@ -136,6 +137,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  data-testid="task-description"
                 />
               </div>
 
@@ -147,6 +149,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     value={formData.dueDate}
                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                    data-testid="task-due-date"
                   />
                 </div>
                 <div>
@@ -155,6 +158,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                    data-testid="task-priority"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -171,11 +175,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                       type="button"
                       key={tag._id}
                       onClick={() => toggleTag(tag._id)}
-                      className={`inline-flex items-center px-2.5 py-1.5 rounded text-xs font-medium border ${
-                        selectedTags.includes(tag._id)
-                          ? 'bg-blue-100 text-blue-800 border-blue-200'
-                          : 'bg-white text-gray-700 border-gray-300'
-                      }`}
+                      className={`inline-flex items-center px-2.5 py-1.5 rounded text-xs font-medium border ${selectedTags.includes(tag._id)
+                        ? 'bg-blue-100 text-blue-800 border-blue-200'
+                        : 'bg-white text-gray-700 border-gray-300'
+                        }`}
                     >
                       {tag.name}
                     </button>
@@ -188,6 +191,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, onClose, taskToEdit }) => {
                     className="flex-1 border border-gray-300 rounded-md shadow-sm py-1 px-2 text-sm"
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
+                    data-testid="new-tag"
                   />
                   <button
                     type="button"

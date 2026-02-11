@@ -1,6 +1,6 @@
 import express from 'express';
 import { check } from 'express-validator';
-import { register, login, getMe } from '../controllers/authController.js';
+import { register, login, getMe, deleteUser } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -23,6 +23,8 @@ router.post(
   ],
   login
 );
+
+router.delete('/:id', deleteUser)
 
 router.get('/me', protect, getMe);
 
