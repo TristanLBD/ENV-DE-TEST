@@ -62,7 +62,7 @@ describe('API', () => {
                     expect.objectContaining({
                         success: true,
                         user: expect.objectContaining({ email: user.email, id: expect.any(String), name: user.name }),
-                        token: expect.any(String), //! Mieux que toBeDefined car verifie definit + chaine
+                        token: expect.any(String), //! Mieux que toBeDefined car verifie definit + type chaine
                         //! expect.any([String, undefined])
                         //! ToBeUnnecessary / toBeOneOf (utilisé pr typage ou valeurs)
                     }),
